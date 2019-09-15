@@ -1,6 +1,6 @@
 from http.server import HTTPServer
 
-from HttpHandler import HttpHandler
+from http_handler import HttpHandler
 
 
 class Main:
