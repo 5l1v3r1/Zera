@@ -1,38 +1,42 @@
+import os
 from http.server import BaseHTTPRequestHandler
 from pathlib import Path
 
+from static_handler import StaticHandler
+from template_handler import TemplateHandler
 from urls import urls
 
 
 class HttpHandler(BaseHTTPRequestHandler):
     def do_GET(self):
-        self.respond()
+        self.split_path = os.path.splitext(self.path)
+        self.extension = self.split_path[1]
 
-    def handle_http(self):
-        self.status_code = 200
-        self.content_type = "text/plain"
-        self.response_content = ""
-
-        if self.path in urls:
-            print(self.path)
-            self.url_content = urls[self.path]["template"]
-            self.file_path = Path(f"templates/{self.url_content}/")
-            if self.file_path.is_file():
-                self.content_type = "text/html"
-                self.response_content = open(f"templates/{self.url_content}")
-                self.response_content = self.response_content.read()
+        if self.extension == "" or self.extension == ".html":
+            if self.path in urls:
+                handler = TemplateHandler()
+                handler.find_template(urls[self.path])
             else:
-                self.content_type = "text/plain"
-                self.response_content = "File not found!"
+                handler = BadRequest()
         else:
-            self.content_type = "text/plain"
-            self.response_content = "Path not found!"
+            handler = StaticHandler()
+            handler.find_static(self.path)
 
+        self.respond(dict(handler=handler))
+
+    def handle_http(self, handler):
+        self.status_code = handler.get_status()
         self.send_response(self.status_code)
-        self.send_header("Content-type", self.content_type)
-        self.end_headers()
-        return bytes(self.response_content, "UTF-8")
 
-    def respond(self):
-        self.content = self.handle_http()
-        self.wfile.write(self.content)
+        if self.status_code == 200:
+            self.content = handler.get_contents()
+            self.send_header("Content-type", handler.get_content_type())
+        else:
+            self.content = "404 Not Found!"
+
+        self.end_headers()
+        return bytes(self.content, "UTF-8")
+
+    def respond(self, opts):
+        response = self.handle_http(opts["handler"])
+        self.wfile.write(response)
