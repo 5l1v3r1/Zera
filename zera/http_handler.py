@@ -2,8 +2,10 @@ import os
 from http.server import BaseHTTPRequestHandler
 from pathlib import Path
 
+from markdown_handler import MarkdownHandler
 from static_handler import StaticHandler
 from template_handler import TemplateHandler
+from request_handler import BadRequest
 from urls import urls
 
 
@@ -18,6 +20,14 @@ class HttpHandler(BaseHTTPRequestHandler):
                 handler.find_template(urls[self.path])
             else:
                 handler = BadRequest()
+
+        if self.extension == "" or self.extension == ".md":
+            if self.path in urls:
+                handler = MarkdownHandler()
+                handler.find_template(urls[self.path])
+            else:
+                handler = BadRequest()
+
         else:
             handler = StaticHandler()
             handler.find_static(self.path)

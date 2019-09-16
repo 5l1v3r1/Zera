@@ -1,1 +1,1 @@
-urls = {"/": {"template": "index.html"}}
+urls = {"/": {"template": "index.html"}, "/test": {"template": "test.md"}}
