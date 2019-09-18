@@ -2,32 +2,28 @@ import os
 from http.server import BaseHTTPRequestHandler
 from pathlib import Path
 
-from markdown_handler import MarkdownHandler
-from static_handler import StaticHandler
 from html_handler import HtmlHandler
+from markdown_handler import MarkdownHandler
 from request_handler import BadRequest
+from static_handler import StaticHandler
 from urls import urls
 
 
 class HttpHandler(BaseHTTPRequestHandler):
     def do_GET(self):
-        self.split_path = os.path.splitext(self.path)
-        self.extension = self.split_path[1]
+        if self.path in urls:
+            self.url_template = urls[self.path]["template"]
+            self.extension = self.url_template.split(".")[1]
 
-        if self.extension == "" or self.extension == ".html":
-            if self.path in urls:
+            # rendering for html template
+            if self.extension == "html":
                 handler = HtmlHandler()
-                handler.find_template(urls[self.path])
-            else:
-                handler = BadRequest()
+                handler.find_template(self.url_template)
 
-        if self.extension == "" or self.extension == ".md":
-            if self.path in urls:
+            # rendering for markdown template
+            elif self.extension == "md":
                 handler = MarkdownHandler()
-                handler.find_template(urls[self.path])
-            else:
-                handler = BadRequest()
-
+                handler.find_template(self.url_template)
         else:
             handler = StaticHandler()
             handler.find_static(self.path)

@@ -11,9 +11,9 @@ class MarkdownHandler(RequestHandler):
     def get_contents(self):
         return markdown2.markdown(self.contents.read())
 
-    def find_template(self, url_data):
+    def find_template(self, url_template):
         try:
-            self.template_file = open(f'templates/{url_data["template"]}')
+            self.template_file = open(f"templates/" + url_template)
             self.contents = self.template_file
             self.set_status(200)
             return True
