@@ -1,7 +1,7 @@
 from request_handler import RequestHandler
 
 
-class TemplateHandler(RequestHandler):
+class HtmlHandler(RequestHandler):
     def __init__(self):
         super().__init__()
         self.content_type = "text/html"
