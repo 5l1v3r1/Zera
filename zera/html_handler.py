@@ -12,6 +12,6 @@ class HtmlHandler(RequestHandler):
             self.contents = self.template_file
             self.set_status(200)
             return True
-        except:
+        except FileNotFoundError:
             self.set_status(404)
             return False

@@ -26,7 +26,7 @@ class StaticHandler(RequestHandler):
             self.set_content_type(self.extension)
             self.set_status(200)
             return True
-        except:
+        except FileNotFoundError:
             self.set_content_type("notfound")
             self.set_status(404)
             return False

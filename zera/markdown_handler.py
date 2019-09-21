@@ -19,12 +19,11 @@ class MarkdownHandler(RequestHandler):
         return markdown2.markdown(self.contents.read())
 
     def find_template(self, url_template):
-        file = str("templates/" + url_template)
         try:
-            self.template_file = open(f"{file}")
+            self.template_file = open(f"templates/" + url_template)
             self.contents = self.template_file
             self.set_status(200)
             return True
-        except:
+        except FileNotFoundError:
             self.set_status(404)
             return False
