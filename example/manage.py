@@ -1,10 +1,10 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-from html_handler import HtmlHandler
-from markdown_handler import MarkdownHandler
-from request_handler import BadRequest
-from static_handler import StaticHandler
 from urls import urls
+from zera.html_handler import HtmlHandler
+from zera.markdown_handler import MarkdownHandler
+from zera.request_handler import BadRequest
+from zera.static_handler import StaticHandler
 
 
 class HttpHandler(BaseHTTPRequestHandler):
@@ -59,4 +59,3 @@ class Main:
 if __name__ == "__main__":
     main = Main()
     main.run()
-
