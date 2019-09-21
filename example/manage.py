@@ -1,9 +1,9 @@
+import sys
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from urls import urls
 from zera.html_handler import HtmlHandler
 from zera.markdown_handler import MarkdownHandler
-from zera.request_handler import BadRequest
 from zera.static_handler import StaticHandler
 
 
@@ -50,10 +50,23 @@ class Main:
     def __init__(self):
         self.port = 8080
 
+    def help(self):
+        print("Unknown command!\nCommands:")
+        print("run:Start the development server\ninit:Initialize example project.")
+        sys.exit()
+
     def run(self):
-        self.server = HTTPServer(("", self.port), HttpHandler)
-        print(f"Starting zera at:http://127.0.0.1:{self.port}/")
-        self.server.serve_forever()
+        if len(sys.argv) < 2:
+            self.help()
+        elif sys.argv[1] == "run":
+            try:
+                self.server = HTTPServer(("", self.port), HttpHandler)
+                print("Started reppie on : http://127.0.0.1:8080/")
+                self.server.serve_forever()
+            except KeyboardInterrupt:
+                self.server.server_close()
+        else:
+            self.help()
 
 
 if __name__ == "__main__":
