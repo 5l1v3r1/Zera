@@ -1,4 +1,4 @@
-from request_handler import RequestHandler
+from zera.request_handler import RequestHandler
 
 
 class HtmlHandler(RequestHandler):

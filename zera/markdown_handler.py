@@ -1,6 +1,6 @@
 import markdown2
 
-from request_handler import RequestHandler
+from zera.request_handler import RequestHandler
 
 
 class MarkdownHandler(RequestHandler):
