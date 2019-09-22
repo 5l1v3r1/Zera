@@ -39,6 +39,11 @@ class HttpHandler(BaseHTTPRequestHandler):
             self.content = "404 Not Found!"
 
         self.end_headers()
+
+        # for content from StaticHandler
+        if isinstance(self.content, (bytes, bytearray)):
+            return self.content
+
         return bytes(self.content, "UTF-8")
 
     def respond(self, opts):
@@ -61,7 +66,7 @@ class Main:
         elif sys.argv[1] == "run":
             try:
                 self.server = HTTPServer(("", self.port), HttpHandler)
-                print("Started reppie on : http://127.0.0.1:8080/")
+                print("Started zera on : http://127.0.0.1:8080/")
                 self.server.serve_forever()
             except KeyboardInterrupt:
                 self.server.server_close()
