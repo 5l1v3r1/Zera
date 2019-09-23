@@ -10,7 +10,7 @@ def get_long_description():
 
 setup(
     name="zera",
-    version=1,
+    version="0.1",
     packages=["zera"],
     author="Furkan Onder",
     author_email="furkantahaonder@gmail.com",
@@ -20,7 +20,13 @@ setup(
     license="MIT",
     keywords="static web generator html markdown",
     url="https://github.com/furkanonder/Zera",
+    download_url="https://github.com/furkanonder/Zera/archive/v0.1.tar.gz",
     include_package_data=True,
     entry_points={"console_scripts": ["zera = zera.zera:main"]},
     install_requires=["markdown2", "click"],
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
 )

@@ -5,7 +5,10 @@ Static web site generator.
 ```python
 python3 setup.py install
 ```
-
+or install with pip
+```
+pip install zera
+```
 ## How to use?
 Start a sample project.
 ```
