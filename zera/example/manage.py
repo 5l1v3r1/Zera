@@ -1,16 +1,20 @@
 import sys
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from importlib import reload
 
-from urls import urls
 from zera.html_handler import HtmlHandler
 from zera.markdown_handler import MarkdownHandler
 from zera.static_handler import StaticHandler
+import urls
 
 
 class HttpHandler(BaseHTTPRequestHandler):
     def do_GET(self):
-        if self.path in urls:
-            self.url_template = urls[self.path]["template"]
+        reload(urls)
+        url_patterns = urls.url_patterns
+
+        if self.path in url_patterns:
+            self.url_template = url_patterns[self.path]["template"]
             self.extension = self.url_template.split(".")[1]
 
             # rendering for html template
