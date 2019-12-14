@@ -18,3 +18,5 @@ Then start the project.
 ```python
 python manage.py run
 ```
+## V0.2
+* Add urls autoreloader
