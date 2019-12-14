@@ -6,7 +6,7 @@ main = click.group()(lambda: None)
 
 @click.command(short_help="initialize project", help="initialize project")
 def init():
-    copy_tree(pkg_resources.resource_filename(__name__, "example/"), ".")
+    copy_tree(pkg_resources.resource_filename(__name__, "example/"), "./zera")
 
 
 main.add_command(init)
